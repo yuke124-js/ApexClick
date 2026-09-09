@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Явно net9.0, не net9.0-windows: контракт не должен тянуть WPF за собой (раздел 15). -->
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ApexClick.Contracts</RootNamespace>
+  </PropertyGroup>
+
+</Project>

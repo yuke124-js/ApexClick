@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ApexClick.Services.Vision</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApexClick.Models\ApexClick.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Версии — как в независимом заходе по Vision, который мы сюда переносим (см. MERGE_NOTES.md). -->
+    <PackageReference Include="OpenCvSharp4" Version="4.10.0.20240616" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.0.20240616" />
+    <PackageReference Include="Tesseract" Version="5.2.0" />
+    <!-- System.Drawing.Common: с .NET 5 не входит в net9.0-windows по умолчанию, а GDI-захват
+         (Bitmap/Graphics/ImageFormat) требует именно её, не System.Drawing.Common's Windows-only
+         предупреждение (CA1416) актуально только вне net*-windows TFM, здесь не мешает. -->
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>

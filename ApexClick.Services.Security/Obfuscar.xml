@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Obfuscator>
+  <Var name="InPath" value="$(TargetDir)" />
+  <Var name="OutPath" value="$(TargetDir)obfuscated\" />
+  <Var name="RenameProperties" value="true" />
+  <Var name="RenameEvents" value="false" />
+  <Var name="HidePrivateApi" value="true" />
+  <Var name="UseUnicodeNames" value="false" />
+  <Var name="HideStrings" value="true" />
+  <Module file="$(TargetDir)ApexClick.Services.Playback.dll" />
+  <Module file="$(TargetDir)ApexClick.Services.Licensing.dll" />
+  <Module file="$(TargetDir)ApexClick.FeaturePack.dll" />
+  <!-- Public contracts and test-visible types should be added to KeepType/SkipMethod in CI if needed. -->
+</Obfuscator>

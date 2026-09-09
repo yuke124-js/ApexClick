@@ -1,0 +1,17 @@
+<Project>
+  <!--
+    Общие настройки для всех проектов решения — устраняет дублирование одинаковых
+    <TargetFramework>/<Nullable>/<ImplicitUsings> в каждом .csproj по отдельности.
+    Существующие явные значения в отдельных .csproj не удалены (риск затронуть уже
+    рабочие файлы без возможности пересобрать и проверить здесь) — они просто
+    совпадают с этими и не конфликтуют. Новые проекты могут полагаться на этот файл
+    и не дублировать настройки.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+</Project>

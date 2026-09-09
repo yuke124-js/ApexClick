@@ -1,0 +1,21 @@
+<Window x:Class="ApexClick.Views.PluginManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ApexClick — Плагины" Width="760" Height="520"
+        Background="{StaticResource GraphiteInkBrush}" WindowStartupLocation="CenterOwner">
+    <DockPanel Margin="14">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="Обновить" Click="OnRefresh" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,6,0" />
+            <TextBlock x:Name="StatusText" Style="{StaticResource SecondaryTextStyle}" VerticalAlignment="Center" />
+        </StackPanel>
+        <ListView x:Name="PluginList" Background="Transparent" BorderThickness="0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding TypeId}" Width="220" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding DisplayName}" Width="240" />
+                    <GridViewColumn Header="Assembly" DisplayMemberBinding="{Binding AssemblyName}" Width="220" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Window>

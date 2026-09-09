@@ -1,0 +1,115 @@
+<Window x:Class="ApexClick.Views.NodeEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:feature="clr-namespace:ApexClick.FeaturePack.UI;assembly=ApexClick.FeaturePack"
+        Title="ApexClick — Node Graph" Height="860" Width="1480"
+        MinWidth="1120" MinHeight="720"
+        Background="{StaticResource GraphiteInkBrush}">
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="{StaticResource SlatePanelBrush}" Padding="14,10">
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="NODE GRAPH" Style="{StaticResource UiTextStyle}" FontSize="17" FontWeight="SemiBold"/>
+                    <TextBlock Text="·" Style="{StaticResource SecondaryTextStyle}" Margin="8,0"/>
+                    <TextBlock Text="Semantic editor" Style="{StaticResource SecondaryTextStyle}" VerticalAlignment="Center"/>
+                    <TextBlock Text="ⓘ" Style="{StaticResource InfoGlyphStyle}" ToolTip="Перемещения и связи меняют граф. Исходные raw events используются для воспроизведения." Margin="10,0,0,0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="Несохранённые: " Style="{StaticResource SecondaryTextStyle}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding IsDirty}" Style="{StaticResource DataTextStyle}" VerticalAlignment="Center" Margin="4,0,10,0"/>
+                    <Button Content="🖼 Images" Click="OnOpenImageLibrary" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Библиотека image templates для screenshot-триггеров."/>
+                    <Button Content="Закрыть" Click="OnDoneClick" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0" ToolTip="ⓘ При несохранённых изменениях появится диалог сохранить/выйти/отмена."/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="*" MinWidth="520"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource PanelBorderStyle}" Padding="12" Margin="0,0,8,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Действия" Style="{StaticResource UiTextStyle}" FontWeight="SemiBold"/>
+                        <TextBlock Text="ⓘ" Style="{StaticResource InfoGlyphStyle}" ToolTip="Создание действий: движение мыши, клики, колесо, клавиши, текст и ожидание." Margin="6,0,0,0"/>
+                        <TextBlock Text="ⓘ Добавляет готовый semantic action в граф." Style="{StaticResource SecondaryTextStyle}" Margin="0,4,0,8"/>
+                        <WrapPanel>
+                            <Button Content="Move" Click="OnAddMouseMove" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Перемещение курсора."/>
+                            <Button Content="Click" Click="OnAddClick" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Левый клик."/>
+                            <Button Content="Double" Click="OnAddDoubleClick" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Двойной левый клик."/>
+                            <Button Content="Right" Click="OnAddRightClick" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Правый клик."/>
+                            <Button Content="Scroll" Click="OnAddWheel" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Колёсико мыши."/>
+                            <Button Content="Key" Click="OnAddKey" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Нажатие клавиши."/>
+                            <Button Content="Text" Click="OnAddText" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Ввод текста."/>
+                            <Button Content="Wait" Click="OnAddWait" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Пауза на заданное количество миллисекунд."/>
+                        </WrapPanel>
+
+                        <TextBlock Text="Триггеры и логика" Style="{StaticResource UiTextStyle}" FontWeight="SemiBold" Margin="0,14,0,4"/>
+                        <TextBlock Text="ⓘ" Style="{StaticResource InfoGlyphStyle}" ToolTip="Условия и триггеры управляют ветвлением графа: фото, пиксель, OCR, loop, variable, subscenario." Margin="6,0,0,0"/>
+                        <TextBlock Text="ⓘ Условия выбирают ветку графа; image trigger использует embedded template." Style="{StaticResource SecondaryTextStyle}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                        <WrapPanel>
+                            <Button Content="Фото" Click="OnAddPhotoTrigger" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Screenshot template trigger."/>
+                            <Button Content="Pixel" Click="OnAddPixel" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Проверка цвета точки экрана."/>
+                            <Button Content="OCR" Click="OnAddOcr" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Проверка текста в заданной области."/>
+                            <Button Content="Condition" Click="OnAddCondition" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Общее условие True/False."/>
+                            <Button Content="Loop" Click="OnAddLoop" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Циклическая ветка."/>
+                            <Button Content="Variable" Click="OnAddVariable" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Записать значение в переменную."/>
+                            <Button Content="SubScenario" Click="OnAddSubScenario" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Запустить другой .mscr."/>
+                        </WrapPanel>
+
+                        <TextBlock Text="Связи" Style="{StaticResource UiTextStyle}" FontWeight="SemiBold" Margin="0,14,0,4"/>
+                        <TextBlock Text="ⓘ" Style="{StaticResource InfoGlyphStyle}" ToolTip="Рёбра определяют порядок и ветки выполнения: Next, True, False и Loop." Margin="6,0,0,0"/>
+                        <TextBlock Text="ⓘ Соединяет существующие узлы. True/False/Loop используются интерпретатором." Style="{StaticResource SecondaryTextStyle}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                        <ComboBox x:Name="SourceNodeBox" ItemsSource="{Binding NodeIds}" Margin="0,2,0,5"/>
+                        <ComboBox x:Name="TargetNodeBox" ItemsSource="{Binding NodeIds}" Margin="0,2,0,5"/>
+                        <ComboBox x:Name="EdgeKindBox" ItemsSource="{Binding EdgeKinds}" SelectedIndex="0" Margin="0,2,0,7"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Добавить" Click="OnAddEdge" Style="{StaticResource PrimaryButtonStyle}" ToolTip="ⓘ Создать связь между выбранными узлами."/>
+                            <Button Content="Удалить" Click="OnRemoveEdge" Style="{StaticResource SecondaryButtonStyle}" Margin="6,0,0,0" ToolTip="ⓘ Удалить последнюю связь."/>
+                        </StackPanel>
+
+                        <TextBlock Text="Image templates" Style="{StaticResource UiTextStyle}" FontWeight="SemiBold" Margin="0,14,0,4"/>
+                        <TextBlock Text="ⓘ" Style="{StaticResource InfoGlyphStyle}" ToolTip="Изображения становятся встроенными шаблонами и могут быть подключены к screenshot trigger." Margin="6,0,0,0"/>
+                        <Border BorderBrush="{StaticResource SteelGreyBrush}" BorderThickness="1" CornerRadius="7" Padding="10" AllowDrop="True" Drop="OnImageDrop" DragOver="OnImageDragOver" Background="{StaticResource GraphiteInkBrush}">
+                            <StackPanel>
+                                <TextBlock Text="Перетащите изображения сюда" Style="{StaticResource SecondaryTextStyle}" TextAlignment="Center"/>
+                                <TextBlock Text="PNG · JPG · BMP · WebP" Style="{StaticResource DataTextStyle}" TextAlignment="Center" Margin="0,3,0,8"/>
+                                <Button Content="Добавить файлы" Click="OnBrowseImages" Style="{StaticResource SecondaryButtonStyle}" ToolTip="ⓘ Изображения встраиваются в .mscr и становятся доступными для screenshot trigger."/>
+                            </StackPanel>
+                        </Border>
+                        <ListBox ItemsSource="{Binding ImageAssets}" Margin="0,8,0,0" Background="Transparent" BorderThickness="0" MaxHeight="120"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <Border Grid.Column="1" Background="{StaticResource GraphiteInkBrush}" BorderBrush="{StaticResource SteelGreyBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <feature:ReactiveGridCanvas x:Name="ReactiveGrid" IsActive="True"/>
+                    <feature:NodeGraphCanvas x:Name="GraphCanvas" Background="Transparent" Graph="{Binding Graph}"
+                                             NodePositionChanged="OnNodePositionChanged" EdgeKindChanged="OnEdgeKindChanged"
+                                             NodeEditRequested="OnNodeEditRequested" NodeSelectionChanged="OnNodeSelectionChanged"/>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}" Margin="8,0,0,0" Padding="12">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="ИНСПЕКТОР" Style="{StaticResource UiTextStyle}" FontWeight="SemiBold"/>
+                        <TextBlock Text="ⓘ Двойной клик по узлу открывает редактирование его параметров." Style="{StaticResource SecondaryTextStyle}" TextWrapping="Wrap" Margin="0,5,0,12"/>
+                        <TextBlock Text="{Binding SelectedNode.DisplayType}" Style="{StaticResource UiTextStyle}" FontSize="16"/>
+                        <TextBlock Text="{Binding SelectedNode.Detail}" Style="{StaticResource DataTextStyle}" Margin="0,5,0,12" TextWrapping="Wrap"/>
+                        <Button Content="Открыть свойства" Click="OnEditSelected" Style="{StaticResource PrimaryButtonStyle}" ToolTip="ⓘ Изменить параметры выбранного узла."/>
+                        <Button Content="Удалить узел" Click="OnDeleteSelected" Style="{StaticResource SecondaryButtonStyle}" Margin="0,7,0,0" ToolTip="ⓘ Удалить узел и связанные с ним рёбра."/>
+                        <Separator Margin="0,14,0,10"/>
+                        <TextBlock Text="Поведение" Style="{StaticResource SecondaryTextStyle}"/>
+                        <TextBlock Text="Граф редактирует структуру сценария; фактическая запись raw events используется воспроизведением отдельно." Style="{StaticResource SecondaryTextStyle}" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

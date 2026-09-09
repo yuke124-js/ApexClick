@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <ApexClickObfuscarExe Condition="'$(ApexClickObfuscarExe)' == ''">$(MSBuildThisFileDirectory)tools\Obfuscar.Console.exe</ApexClickObfuscarExe>
+  </PropertyGroup>
+
+  <Target Name="ApexClickObfuscateRelease"
+          AfterTargets="Publish"
+          Condition="'$(Configuration)' == 'Release' and '$(ApexClickSkipObfuscation)' != 'true'">
+    <Exec Condition="Exists('$(ApexClickObfuscarExe)')"
+          Command="&quot;$(ApexClickObfuscarExe)&quot; &quot;$(MSBuildThisFileDirectory)ApexClick.Services.Security\Obfuscar.xml&quot;" />
+    <Error Condition="'$(ApexClickRequireObfuscation)' == 'true' and !Exists('$(ApexClickObfuscarExe)')"
+           Text="Release obfuscation is required but Obfuscar.Console.exe is missing. Restore CI tool assets or set ApexClickObfuscarExe." />
+  </Target>
+</Project>
