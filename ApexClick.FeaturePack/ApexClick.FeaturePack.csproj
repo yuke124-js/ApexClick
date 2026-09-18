@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>ApexClick.FeaturePack</RootNamespace>
+    <!-- Отсутствовал в исходном csproj — без него UI/NodeGraphCanvas.xaml(.cs) не компилируется
+         вообще (UserControl/XAML требуют UseWPF), сборка проекта падала бы сразу. -->
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApexClick.Models\ApexClick.Models.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.DataDriven\ApexClick.Services.DataDriven.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Licensing\ApexClick.Services.Licensing.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Community\ApexClick.Services.Community.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Playback\ApexClick.Services.Playback.csproj" />
+  </ItemGroup>
+  <ItemGroup><ProjectReference Include="..\ApexClick.Services.Vision\ApexClick.Services.Vision.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="..\ApexClick.Services.AI\ApexClick.Services.AI.csproj" /></ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Speech" Version="9.0.19" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,4 @@
+<ItemGroup>
+  <ProjectReference Include="..\..\ApexClick.ViewModels\ApexClick.ViewModels.csproj" />
+  <ProjectReference Include="..\..\ApexClick.Models\ApexClick.Models.csproj" />
+</ItemGroup>

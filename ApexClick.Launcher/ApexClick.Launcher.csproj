@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>ApexClick.Launcher</RootNamespace>
+    <!-- Имя exe перенесено сюда из ApexClick.Views.csproj — эта точка входа его заменила. -->
+    <AssemblyName>ApexClick</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Стандартный, лёгкий DI-контейнер без нативных зависимостей — безопасен для restore. -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApexClick.Contracts\ApexClick.Contracts.csproj" />
+    <ProjectReference Include="..\ApexClick.Models\ApexClick.Models.csproj" />
+    <ProjectReference Include="..\ApexClick.ViewModels\ApexClick.ViewModels.csproj" />
+    <ProjectReference Include="..\ApexClick.Views\ApexClick.Views.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Capture\ApexClick.Services.Capture.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Licensing\ApexClick.Services.Licensing.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Playback\ApexClick.Services.Playback.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Scheduler\ApexClick.Services.Scheduler.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Vision\ApexClick.Services.Vision.csproj" />
+    <ProjectReference Include="..\ApexClick.FeaturePack\ApexClick.FeaturePack.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Debugger\ApexClick.Services.Debugger.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Plugins\ApexClick.Services.Plugins.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Community\ApexClick.Services.Community.csproj" />
+  </ItemGroup>
+
+  <ItemGroup><ProjectReference Include="..\ApexClick.Services.AI\ApexClick.Services.AI.csproj" /></ItemGroup>
+</Project>

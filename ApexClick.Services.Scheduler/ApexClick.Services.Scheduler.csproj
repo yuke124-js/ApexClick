@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ApexClick.Services.Scheduler</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApexClick.Models\ApexClick.Models.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Capture\ApexClick.Services.Capture.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Playback\ApexClick.Services.Playback.csproj" />
+  </ItemGroup>
+
+</Project>

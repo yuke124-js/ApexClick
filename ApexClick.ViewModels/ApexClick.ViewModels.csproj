@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>ApexClick.ViewModels</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApexClick.Contracts\ApexClick.Contracts.csproj" />
+    <ProjectReference Include="..\ApexClick.Models\ApexClick.Models.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Capture\ApexClick.Services.Capture.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Playback\ApexClick.Services.Playback.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Vision\ApexClick.Services.Vision.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.AI\ApexClick.Services.AI.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Licensing\ApexClick.Services.Licensing.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Scheduler\ApexClick.Services.Scheduler.csproj" />
+    <ProjectReference Include="..\ApexClick.FeaturePack\ApexClick.FeaturePack.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Debugger\ApexClick.Services.Debugger.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Plugins\ApexClick.Services.Plugins.csproj" />
+    <ProjectReference Include="..\ApexClick.Services.Community\ApexClick.Services.Community.csproj" />
+  </ItemGroup>
+
+</Project>

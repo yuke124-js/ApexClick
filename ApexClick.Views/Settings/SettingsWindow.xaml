@@ -1,0 +1,150 @@
+<Window x:Class="ApexClick.Views.Settings.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ApexClick — Настройки" Width="760" Height="700"
+        MinWidth="680" MinHeight="620"
+        Background="{StaticResource GraphiteInkBrush}"
+        WindowStartupLocation="CenterOwner">
+    <DockPanel Margin="14">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Отмена" Click="OnCancel" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,6,0" />
+            <Button Content="Сохранить" Click="OnSave" Style="{StaticResource PrimaryButtonStyle}" />
+        </StackPanel>
+
+        <TabControl Background="{StaticResource SlatePanelBrush}" BorderThickness="0">
+            <TabItem Header="Общее">
+                <StackPanel Margin="16">
+                    <TextBlock Text="ⓘ Базовое поведение запуска, окна и системных анимаций." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10"/>
+                    <CheckBox Content="Запускать вместе с Windows" IsChecked="{Binding General.StartWithWindows}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Запускать ApexClick автоматически после входа в Windows." />
+                    <CheckBox Content="Сворачивать в трей" IsChecked="{Binding General.MinimizeToTray}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ После закрытия окна приложение может продолжить работу в области уведомлений." />
+                    <CheckBox Content="Показывать уведомления" IsChecked="{Binding General.ShowNotifications}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Показывать системные уведомления о завершении/ошибках операций." />
+                    <CheckBox Content="Уважать системную настройку Windows «Показывать анимацию»" IsChecked="{Binding General.RespectWindowsAnimationSetting}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Если Windows запрещает анимацию, сигнатурные эффекты ApexClick отключатся." />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Запись">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+                        <TextBlock Text="ⓘ Влияет на поток записи и его последующее упрощённое представление в graph editor." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10"/>
+                        <TextBlock Text="Сбор событий" Style="{StaticResource UiTextStyle}" Margin="0,0,0,8" />
+                        <CheckBox Content="Записывать движение мыши" IsChecked="{Binding Recording.CaptureMouseMoves}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Записывать отдельные движения мыши. Выключение уменьшает объём записи." />
+                        <CheckBox Content="Записывать раскладку клавиатуры" IsChecked="{Binding Recording.CaptureKeyboardLayout}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Сохранять раскладку клавиатуры, использовавшуюся при записи." />
+                        <CheckBox Content="Использовать TextInput при ручном создании действий" IsChecked="{Binding Recording.CaptureTextInput}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Использовать semantic TextInput для вручную созданных действий." />
+                        <CheckBox Content="Сохранять быстрые screenshot-захваты" IsChecked="{Binding Recording.CaptureScreenshotsOnHotkey}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Быстро сохранять screenshot template по заданной горячей клавише." />
+                        <CheckBox Content="Автоматически упрощать траектории в графе" IsChecked="{Binding Recording.AutoSimplifyGraph}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Упрощать только визуальный graph; raw events остаются точными." />
+
+                        <TextBlock Text="Интервал MouseMove samples (мс)" Style="{StaticResource SecondaryTextStyle}" Margin="0,14,0,4" />
+                        <TextBox Text="{Binding Recording.MouseMoveSampleIntervalMs, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left" />
+                        <TextBlock Text="Допуск микродрожания, px" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                        <TextBox Text="{Binding Recording.MouseJitterTolerancePixels, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left" />
+                        <TextBlock Text="Максимум точек MousePath" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                        <TextBox Text="{Binding Recording.MaxGraphPathPoints, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Воспроизведение">
+                <StackPanel Margin="16">
+                    <TextBlock Text="ⓘ Настройки влияют только на replay; исходная запись не изменяется." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10"/>
+                    <TextBlock Text="Скорость по умолчанию" Style="{StaticResource SecondaryTextStyle}" />
+                    <Slider Minimum="0.5" Maximum="2.0" Value="{Binding Playback.DefaultSpeed}" Width="240" Margin="0,4,0,12" />
+                    <TextBlock Text="Пауза при реальном вводе" Style="{StaticResource SecondaryTextStyle}" />
+                    <CheckBox Content="Smart Pause" IsChecked="{Binding Playback.EnableSmartPause}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Ставить replay на паузу при реальном вводе пользователя." />
+                    <TextBlock Text="Длительность Smart Pause (сек.)" Style="{StaticResource SecondaryTextStyle}" Margin="0,8,0,4" />
+                    <TextBox Text="{Binding Playback.SmartPauseSeconds, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left" />
+                    <CheckBox Content="Авто-проверка зависания" IsChecked="{Binding Playback.EnableStallWatchdog}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ По умолчанию выключено. При включении периодически анализирует экран; может быть тяжёлым для производительности." />
+                    <CheckBox Content="Не запускать AI-сценарии без явного подтверждения" IsChecked="{Binding Playback.ConfirmBeforeAiScenario}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Блокировать запуск AI-сценария до явного подтверждения." Margin="0,12,0,0" />
+                    <CheckBox Content="Продолжать после ненайденного шаблона" IsChecked="{Binding Playback.ContinueOnMissingTemplate}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ При ненайденном шаблоне продолжать сценарий вместо остановки." />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Аудио / микрофон">
+                <StackPanel Margin="16">
+                    <TextBlock Text="ⓘ Здесь выбирается разрешение на микрофон, устройство и команда voice-trigger." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10"/>
+                    <CheckBox Content="Использовать микрофон" IsChecked="{Binding Audio.UseMicrophone}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Разрешить доступ к микрофону. Если выключено, voice-trigger не запускается." />
+                    <CheckBox Content="Разрешить voice-trigger" IsChecked="{Binding Audio.VoiceTriggerEnabled}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Разрешить запуск/действия по голосовой фразе." />
+                    <TextBlock Text="Доступные устройства ввода" Style="{StaticResource SecondaryTextStyle}" Margin="0,14,0,4" />
+                    <ComboBox ItemsSource="{Binding AudioDevices, RelativeSource={RelativeSource AncestorType=Window}}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Audio.MicrophoneDeviceId, Mode=TwoWay}" Width="460" HorizontalAlignment="Left" />
+                    <TextBlock Text="Фраза запуска" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                    <TextBox Text="{Binding Audio.VoiceTriggerPhrase, UpdateSourceTrigger=PropertyChanged}" Width="320" HorizontalAlignment="Left" />
+                    <TextBlock Text="Язык распознавания (например, ru-RU / en-US)" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                    <TextBox Text="{Binding Audio.VoiceTriggerCulture, UpdateSourceTrigger=PropertyChanged}" Width="160" HorizontalAlignment="Left" />
+                    <TextBlock Text="Громкость входа (%)" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                    <Slider Minimum="0" Maximum="100" Value="{Binding Audio.InputVolumePercent}" Width="260" HorizontalAlignment="Left" />
+                    <TextBlock Text="Voice trigger использует выбранную пользователем Windows-совместимую модель распознавания и текущее системное устройство ввода; список доступных устройств сохраняется в настройках." Style="{StaticResource SecondaryTextStyle}" TextWrapping="Wrap" Margin="0,14,0,0" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Граф-редактор">
+                <StackPanel Margin="16">
+                    <TextBlock Text="ⓘ Настраивает плотность, сетку, zoom и поведение semantic nodes; исходные raw events не меняются." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10"/>
+                    <CheckBox Content="Показывать сетку" IsChecked="{Binding Graph.ShowGrid}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Показывать координатную сетку canvas." />
+                    <CheckBox Content="Реактивная сетка у курсора" IsChecked="{Binding Graph.ReactiveGrid}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Тихая cursor-reactive animation; учитывает системную настройку Windows." />
+                    <CheckBox Content="Привязка к сетке" IsChecked="{Binding Graph.SnapToGrid}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ При перетаскивании узлы привязываются к сетке." />
+                    <CheckBox Content="Автоматически раскладывать новые узлы" IsChecked="{Binding Graph.AutoArrange}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Новые узлы получают аккуратные стартовые координаты." />
+                    <CheckBox Content="Показывать preview траекторий" IsChecked="{Binding Graph.ShowPathPreview}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Показывать мини-превью движения внутри MousePath node." />
+                    <CheckBox Content="Компактный вид узлов" IsChecked="{Binding Graph.CompactNodes}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Уменьшать визуальный размер обычных action nodes." />
+                    <TextBlock Text="Размер сетки" Style="{StaticResource SecondaryTextStyle}" Margin="0,12,0,4" />
+                    <TextBox Text="{Binding Graph.GridSize, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left" />
+                    <TextBlock Text="Zoom" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                    <Slider Minimum="0.25" Maximum="3" Value="{Binding Graph.Zoom}" Width="260" HorizontalAlignment="Left" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Vision">
+                <StackPanel Margin="16">
+                    <TextBlock Text="ⓘ Порог схожести и система координат для screenshot/pixel/OCR triggers." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10"/>
+                    <TextBlock Text="Порог template matching" Style="{StaticResource SecondaryTextStyle}" />
+                    <Slider Minimum="0.50" Maximum="1.00" Value="{Binding Vision.TemplateSimilarityThreshold}" Width="260" />
+                    <TextBlock Text="Pixel tolerance" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                    <TextBox Text="{Binding Vision.PixelTolerance, UpdateSourceTrigger=PropertyChanged}" Width="100" HorizontalAlignment="Left" />
+                    <CheckBox Content="Использовать DPI compensation" IsChecked="{Binding Vision.UseDpiCompensation}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Учитывать DPI при переводе экранных координат." Margin="0,12,0,0" />
+                    <CheckBox Content="Использовать virtual screen для Vision" IsChecked="{Binding Vision.UseVirtualScreen}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Использовать общую систему координат всех мониторов." />
+                    <CheckBox Content="Предпочитать capture конкретного окна" IsChecked="{Binding Vision.PreferWindowCapture}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Предпочитать захват конкретного окна при Vision-trigger." />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="AI / приватность">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+                        <TextBlock Text="ⓘ AI используется только для построения сценария; запуск требует явного подтверждения." Style="{StaticResource SecondaryTextStyle}" Margin="0,0,0,10"/>
+                        <CheckBox Content="AI включён" IsChecked="{Binding AI.Enabled}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Разрешить AI Prompt-to-Script." />
+                        <TextBlock Text="Endpoint" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                        <TextBox Text="{Binding AI.Endpoint}" Width="620" />
+                        <TextBlock Text="Model" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                        <TextBox Text="{Binding AI.Model}" Width="320" />
+                        <TextBlock Text="API Key" Style="{StaticResource SecondaryTextStyle}" Margin="0,10,0,4" />
+                        <PasswordBox x:Name="ApiKeyBox" Width="320" />
+                        <CheckBox Content="Требовать подтверждение AI-сценария" IsChecked="{Binding AI.RequireReview}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Всегда требовать ручную проверку AI-графа перед запуском." Margin="0,10,0,0" />
+                        <CheckBox Content="Хранить тексты AI-запросов" IsChecked="{Binding Privacy.StoreAiPrompts}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Сохранять тексты AI-промптов локально." Margin="0,14,0,0" />
+                        <CheckBox Content="Собирать локальную диагностику" IsChecked="{Binding Privacy.StoreDiagnostics}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Сохранять локальную диагностику для поиска проблем." />
+                        <CheckBox Content="Разрешить third-party plugins" IsChecked="{Binding Privacy.AllowThirdPartyPlugins}" Style="{StaticResource SettingCheckBoxStyle}" ToolTip="ⓘ Разрешать загрузку сторонних graph-node plugins." />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Хоткеи">
+                <StackPanel Margin="16">
+                    <TextBlock Text="ⓘ Нажми «Записать» и затем нужную комбинацию клавиш (Esc — отменить). Действует после сохранения и перезапуска приложения." Style="{StaticResource SecondaryTextStyle}" TextWrapping="Wrap" Margin="0,0,0,14"/>
+                    <ItemsControl ItemsSource="{Binding HotkeyRows, RelativeSource={RelativeSource AncestorType=Window}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="140"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="{Binding Label}" Style="{StaticResource UiTextStyle}" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding KeyDisplay}" Style="{StaticResource DataTextStyle}" VerticalAlignment="Center"/>
+                                    <Button Grid.Column="2" Content="{Binding CaptureButtonLabel}" Click="OnStartCapture"
+                                            Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Left"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Content="Сбросить на значения по умолчанию" Click="OnResetHotkeys" Style="{StaticResource SecondaryButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
